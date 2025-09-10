@@ -1,0 +1,55 @@
+graph LR
+    subgraph Training/Inference Loop
+    A[app.py] -- 1 --> B(Transformer.forward)
+    B -- 2 --> L(Decoder.forward)
+    B -- 11 --> C(Encoder.forward)
+
+    subgraph Decoder
+    L -- 3 --> M{PositionalEncoding.forward}
+    L -- 5 --> N(DecoderLayer.forward)
+    N -- 6 --> O(MultiHeadAttention.forward)
+    O -- 7 --> I2["nn.Linear (Decoder)"]
+    O -- 8 --> J2["attention (Decoder)"]
+    N -- 9 --> P(FeedForward.forward)
+    P -- 10 --> H2["nn.Linear (Decoder)"]
+    end
+
+    subgraph Encoder
+    C -- 12 --> D{PositionalEncoding.forward}
+    C -- 14 --> E(EncoderLayer.forward)
+    E -- 15 --> F(MultiHeadAttention.forward)
+    F -- 16 --> I1["nn.Linear (Encoder)"]
+    F -- 17 --> J1["attention (Encoder)"]
+    E -- 18 --> G(FeedForward.forward)
+    G -- 19 --> H1["nn.Linear (Encoder)"]
+    end
+
+    M -- 4 --> K[PositionalEncoding]
+    D -- 13 --> K
+
+    B -- 20 --> Q[nn.Linear]
+    Q -- 21 --> R[UI Display]
+
+    end
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#ccf,stroke:#333,stroke-width:2px
+    style C fill:#ccf,stroke:#333,stroke-width:2px
+    style D fill:#ccf,stroke:#333,stroke-width:2px
+    style E fill:#ffc,stroke:#333,stroke-width:2px
+    style F fill:#ffc,stroke:#333,stroke-width:2px
+    style G fill:#cff,stroke:#333,stroke-width:2px
+    style H1 fill:#cff,stroke:#333,stroke-width:2px
+    style H2 fill:#cff,stroke:#333,stroke-width:2px
+    style I1 fill:#fcf,stroke:#333,stroke-width:2px
+    style I2 fill:#fcf,stroke:#333,stroke-width:2px
+    style J1 fill:#fcf,stroke:#333,stroke-width:2px
+    style J2 fill:#fcf,stroke:#333,stroke-width:2px
+    style K fill:#fcf,stroke:#333,stroke-width:2px
+    style L fill:#ccf,stroke:#333,stroke-width:2px
+    style M fill:#ccf,stroke:#333,stroke-width:2px
+    style N fill:#ffc,stroke:#333,stroke-width:2px
+    style O fill:#ffc,stroke:#333,stroke-width:2px
+    style P fill:#cff,stroke:#333,stroke-width:2px
+    style Q fill:#fcf,stroke:#333,stroke-width:2px
+    style R fill:#afa,stroke:#333,stroke-width:2px

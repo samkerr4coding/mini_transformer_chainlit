@@ -1,0 +1,41 @@
+graph LR
+    direction LR
+
+    subgraph Training Process
+    A[train.py] --> B(Data Loading) --> C["data.py: Dataset Class"] --> D(Create Batches) --> E(DataLoader) --> F(Training Loop)
+
+    subgraph Loop Steps
+        direction TB
+        F --> G(Model Forward Pass)
+        G --> H(Loss Calculation)
+        H --> I(Backward Pass)
+        I --> J("Optimizer.step()")
+    end
+
+    J --> K{Epoch Complete?}
+    K -- Yes --> L(Evaluate Model)
+    K -- No --> F
+
+    L --> M(Validation Loss) --> N{Save Best Model?}
+    N -- Yes --> O["torch.save('mini_transformer.pt')"]
+    N -- No --> K
+
+    O --> P[End Training]
+    end
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#ccf,stroke:#333,stroke-width:2px
+    style C fill:#ccf,stroke:#333,stroke-width:2px
+    style D fill:#ccf,stroke:#333,stroke-width:2px
+    style E fill:#ffc,stroke:#333,stroke-width:2px
+    style F fill:#ffc,stroke:#333,stroke-width:2px
+    style G fill:#cff,stroke:#333,stroke-width:2px
+    style H fill:#cff,stroke:#333,stroke-width:2px
+    style I fill:#fcf,stroke:#333,stroke-width:2px
+    style J fill:#fcf,stroke:#333,stroke-width:2px
+    style K fill:#ccf,stroke:#333,stroke-width:2px
+    style L fill:#ffc,stroke:#333,stroke-width:2px
+    style M fill:#cff,stroke:#333,stroke-width:2px
+    style N fill:#ccf,stroke:#333,stroke-width:2px
+    style O fill:#afa,stroke:#333,stroke-width:2px
+    style P fill:#afa,stroke:#333,stroke-width:2px
